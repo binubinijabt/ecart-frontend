@@ -1,0 +1,275 @@
+<!-- empty cart -->
+
+<div *ngIf=" allCarts.length == 0" class="container">
+    <div class="row text-center">
+        <div class="col">
+
+            <!-- empty-cart image -->
+
+            <img src="https://thumbs.gfycat.com/SlushyObedientGrackle-max-1mb.gif" width="350px" alt="">
+            <h2 style="color: black;">Your Cart Was Empty... PLease Add Your Products</h2>
+            <!-- button -->
+            <button class="btn btn-dark mb-3" routerLink=""> Shop More </button>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- cart with content -->
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-6">
+
+            <!-- table -->
+
+            <table class="border border-2 border-dark m-5 p-4 text-dark">
+
+                <thead>
+
+                    <tr>
+
+                        <th class="border border-2 border-dark p-2 ">Product Id</th>
+                        <th class="border border-2 border-dark p-2">Name</th>
+                        <th class="border border-2 border-dark p-2">Image</th>
+                        <th class="border border-2 border-dark p-2">Quantity</th>
+                        <th class="border border-2 border-dark p-2">Price</th>
+                        <th class="border border-2 border-dark p-2">Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody>
+
+                    <tr *ngFor="let cart of allCarts let i = index ">
+
+                        <td class="border border-2 border-dark p-2">{{i+1}}</td>
+                        <td class="border border-2 border-dark p-2">{{cart.title}}</td>
+                        <td class="border border-2 border-dark p-2"> <img [src]="cart.image" width="100px" alt=""> </td>
+                        <td class="border border-2 border-dark p-2">
+
+
+                            <div class="d-flex flex-row ">
+                                <button class="btn fw-bolder  " (click)="decrementCart(cart.id)"> - </button>
+                                <input type="text" [value]="cart.quantity" readonly class="form-control" width="20px"
+                                    height="20px">
+                                <button class="btn fw-bolder" (click)="incrementCart(cart.id)"> + </button>
+
+                            </div>
+
+                        </td>
+                        <td class="border border-2 border-dark p-2"> {{cart.grandTotal}}</td>
+                        <td class="border border-2 border-dark p-2"> <i
+                                class="fa-solid fa-trash-can fa-beat text-danger" (click)="removeCartItem(cart.id)"></i>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+
+        </div>
+
+        &nbsp;&nbsp;
+
+        <div style="width: 370px;" class="col-6 card shadow my-3 bg-dark text-light m-5  p-3">
+            <!-- summary -->
+
+            <h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" class="text-center fw-bolder">
+                Product Details </h1>
+            <h4 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Price : {{totalPrize}} </h4>
+            <h4 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Discount:50%</h4>
+            <h2 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"> Your Grand Total : {{totalPrize}}
+            </h2>
+            <div class="text-center">
+                <button class="btn btn-success m-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> Check
+                    Out</button>
+
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-danger text-center" id="staticBackdropLabel">Check out details
+                            </h5>
+                            <button (click)="modalclose()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <h3 *ngIf="!paymentStatus" class="text-center text-dark">Enter your address details</h3>
+                            <form *ngIf="!paymentStatus" class="text-dark text-center" [formGroup]="addressForm"
+                                (ngSubmit)="submitForm()">
+
+                                <div class="form-floating mb-3">
+                                    <input name="username" formControlName="username" type="text" class="form-control"
+                                        placeholder="Enter your name" required>
+
+                                    <div *ngIf="this.addressForm.get('username')?.errors 
+                && this.addressForm.get('username')?.touched" class="text-danger">
+                                        Invalid name
+
+                                    </div>
+
+
+                                    <label>Enter name</label>
+
+
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input name="housenumber" formControlName="housenumber" type="text"
+                                        class="form-control" placeholder="house number" required>
+
+
+                                    <div *ngIf="this.addressForm.get('housenumber')?.errors 
+                && this.addressForm.get('housenumber')?.touched" class="text-danger">
+                                        Invalid house number
+
+                                    </div>
+
+                                    <label>House number</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <input name="street" formControlName="street" type="text" class="form-control"
+                                        placeholder="Street name" required>
+
+                                    <div *ngIf="this.addressForm.get('street')?.errors 
+                && this.addressForm.get('street')?.touched" class="text-danger">
+                                        Invalid state
+
+                                    </div>
+
+                                    <label>Street name</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input name="state" formControlName="state" type="text" class="form-control"
+                                        placeholder="State" required>
+
+
+                                    <div *ngIf="this.addressForm.get('state')?.errors 
+                && this.addressForm.get('state')?.touched" class="text-danger">
+                                        Invalid state
+
+                                    </div>
+
+                                    <label>State</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input name="pincode" formControlName="pincode" type="text" class="form-control"
+                                        placeholder="Pincode" required>
+
+
+                                    <div *ngIf="this.addressForm.get('pincode')?.errors 
+                && this.addressForm.get('pincode')?.touched" class="text-danger">
+                                        Invalid pincode Number
+
+                                    </div>
+
+                                    <label>Pincode</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input name="mobileNumber" formControlName="mobileNumber" type="text"
+                                        class="form-control" placeholder="Mobile number" required>
+
+
+
+                                    <div *ngIf="this.addressForm.get('mobileNumber')?.errors 
+                && this.addressForm.get('mobileNumber')?.touched" class="text-danger">
+                                        Invalid mobile Number
+
+                                    </div>
+
+                                    <label>Mobile number</label>
+                                </div>
+
+                                <div>
+                                    <h2 class="text-danger">total amount: <i
+                                            class="fa-solid fa-dollar-sign fa-bounce"></i>{{totalPrize}}</h2>
+                                    <a style="font-weight: 700;font-size: larger;color: rgb(35, 7, 221);" (click)="offerClicked()">offers:<i class="fa-sharp fa-solid fa-tag fa-flip"></i> </a>
+                                </div>
+<!-- discount -->
+
+<div *ngIf="offerClick && !discountStatus">
+
+    <!-- 10%dis -->
+
+<img *ngIf="totalPrize<300" (click)="discount(10)"  width="100px" height="100px" src="https://www.pngplay.com/wp-content/uploads/7/10-Discount-PNG-Clipart-Background.png" alt="">
+
+      <!-- 50%dis -->
+<img *ngIf="totalPrize>500"  (click)="discount(50)" width="100px" height="100px" src="http://clipart-library.com/image_gallery2/50-off-PNG-File.png" alt="">
+
+</div>
+
+
+
+
+
+                                <hr>
+                                <!-- payment button -->
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success m-4"> make a payment </button>
+
+
+                                </div>
+
+
+                            </form>
+                            <!-- //user details -->
+                            <div *ngIf="paymentStatus" class="border border-2 p-3 m-2 text-dark">
+                                <h5> User Address </h5>
+                                <p> {{username}} </p>
+                                <p> {{HouseNumber}} </p>
+                                <p> {{pincode}} </p>
+                                <p> {{phone}} </p>
+
+                                <div class="text-center">
+                                    <button (click)="makepay()" class="btn btn-success">Proceed to Pay</button>
+                                </div>
+                                <br>
+
+                                <div *ngIf="proceedtopay">
+                                    <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                                </div>
+                               
+
+
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+                        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Understood</button>
+        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

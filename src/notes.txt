@@ -1,0 +1,100 @@
+
+
+
+
+
+                      E_cart_frontend
+                    --------------------
+
+         1 Create a folder ECART 
+         2 Inside  in it create a angular application - ng new E_cart_frontend
+         3 cd E_cart_frontend
+         4 code .
+         5 Run angular application -ng s -o 
+         6 Clear code in app.component.html
+         7 Import 3rd party llibraries
+                   -> Bootstrap(index.html)
+                   -> font-awesome(index.html)
+                   -> google fonts cdn (style.css)
+         8 LAZZY LOADING  
+           Lazy loading is an approach to limit the modules that are loaded to the
+           ones that the user currently needs. This can improve your application’s 
+           performance and reduce the initial bundle size.   
+
+          We have one module in our application - app.module
+          Here we create another module -
+            -> Generate module - ng g m products --route products --module app.module     
+
+
+         9. Component Generation
+              -> ng g c products/allProducts
+              -> ng g c products/viewProduct
+              -> ng g c products/wishlist
+              -> ng g c products/cart
+
+             Not in lazy loading
+              -> ng g c header
+              -> ng g c footer
+              -> ng g c pageNotFound
+
+         10. Setup path
+              -> put <router-outlet></router-outlet> in app.component.html
+              -> products.routing.module.ts 
+
+         11. API INTEGRATION
+
+               -> Import HttpClientModule in app.module.ts
+               -> Create a services inside product module - for API calling
+                         - ng g s products/services/api 
+               -> Inside api.service.ts file,
+                         - create and use http dependency injection
+                         - also create a function for(getAllProducts()) fetching 
+                                                                all products details
+               -> Inside all-products .component file,                               
+                         - create and use api dependency injection
+                         - also create a function for integrating api service
+                         - get all products details 
+
+               -> wishlist functionality is complited
+
+               -> product search 
+                   ng g p products/pipes/filter 
+
+               -> Behavior Subject
+                   if the data is confined to a single component there is (almost) no need for observables.
+                   if the data needs to be shared among multiple components however, 
+                   it is stored in singleton services. and components have no way of knowing the state
+                   of data in the service. so observables are used to tell the components the state of
+                   the data has been changed.          
+                                                                        
+              -> cart functionality
+
+
+
+
+              MONGODB ATLAS CONFIGURATION
+            -------------------------------
+
+       1. Copyconnection string from Atlas and paste it into .env file
+       2. Create a db folder in server , insidecreate a connection.js
+       3. In connection.js file import mongoose
+       4. Get db connection string from .env file
+       5. Use mongoose to connect mongodb with node.js
+       6. Import connection.js in index.js file
+       7. Create a model in server
+       8. Create a model/collection to store product in model folder
+       9. Export model
+      10. Create a router for client request - create a routes folder, inside it create a router.js
+          -> Inside route.js file, import express
+          -> Using express create an object for router class inorder to setup path
+          -> Resolve client request in various server routes
+          -> Export router 
+      11. Create controller folder inorder to define logic to resolve client request
+          ->Controller(folder)
+              - productController.js
+              - cartController.js
+              - wishlistController.js
+              
+          -> Inside productController file
+              - Import product collection    
+              - Define logic to resolve client request 

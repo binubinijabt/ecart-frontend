@@ -1,0 +1,56 @@
+
+
+<!-- Empty cart -->
+
+<div class="container" *ngIf="allwishlistItem.length==0">
+    <div class="row">
+        <div class="col" style="display: flex;justify-content: center;align-items: center;" >
+            <img class="me-4" src="https://bakestudio.in/assets/images/cart/empty-cart.gif"
+             alt="">
+            <button class="btn btn-dark text-light " >Explore Now </button>
+        </div>
+    </div>
+    
+    </div>
+    <!-- Empty cart end -->
+    
+    
+    
+    <!-- wishlist with content -->
+    <!-- Section-->
+    <section class="" *ngIf="allwishlistItem.length!==0">
+        <div class="container ">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="col mb-5" *ngFor="let wish of allwishlistItem">
+                    <div class="card "  >
+                        <!-- Product image-->
+                        <img class="card-img"  [src]="wish.image" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">{{wish.title}}</h5>
+                                <!-- Product price-->
+                                ${{wish.price}}
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+    
+    <div class="d-flex justify-content-evenly mb-3">
+        <button class="btn me-3" style="color: red;" (click)="deleteWishlist(wish.id)"><i class="fa-sharp fa-solid fa-heart-circle-minus fa-beat"></i></button>
+        <button class="btn" style="color: green;" (click)="addToCart(wish)" > <i class="fa-solid fa-cart-arrow-down fa-bounce"></i></button>
+    </div>
+    
+    
+                        <!-- <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Productss</a></div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section end-->
+
+
